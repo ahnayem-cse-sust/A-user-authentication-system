@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import LoginForm from '../components/LoginForm.jsx';
 import axios from 'axios';
+import Auth from '../modules/Auth';
 
 
 class LoginPage extends React.Component {
@@ -40,6 +41,11 @@ class LoginPage extends React.Component {
     })
     .then(function (response) {
       console.log(response);
+      Auth.authenticateUser(response.data.data);
+
+
+        // change the current URL to /
+        this.context.router.replace('/');
     })
     .catch(function (error) {
       console.log(error);

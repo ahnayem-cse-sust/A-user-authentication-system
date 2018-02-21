@@ -1,18 +1,8 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-
-
-function loggedIn() {
-  return false;
-}
-
-function requireAuth(nextState, replace) {
-  if (!loggedIn()) {
-    console.log('dffffff');
-  }
-}
+import { Redirect,Router } from 'react-router-dom';
+import Auth from '../modules/Auth';
 
 const Base = () => (
   <div>
@@ -21,10 +11,22 @@ const Base = () => (
         <Link to="/">React App</Link>
       </div>
 
-      <div className="top-bar-right">
+      {/* <div className="top-bar-right">
         <Link to="/login">Log in</Link>
-        <Link to="/signup" onClick={requireAuth}>Sign up</Link>
-      </div>
+        <Link to="/signup">Sign up</Link>
+      </div> */}
+
+      
+      {Auth.isUserAuthenticated() ? (
+        <div className="top-bar-right">
+          <Link to="/logout">Log out</Link>
+        </div>
+      ) : (
+        <div className="top-bar-right">
+          <Link to="/login">Log in</Link>
+          <Link to="/signup">Sign up</Link>
+        </div>
+      )}
 
     </div>
 

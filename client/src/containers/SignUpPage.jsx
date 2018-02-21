@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
 import axios from 'axios';
+import Auth from '../modules/Auth';
 
 
 class SignUpPage extends React.Component {
@@ -63,6 +64,10 @@ class SignUpPage extends React.Component {
     })
     .then(function (response) {
       console.log(response);
+      localStorage.setItem('successMessage', response.data.data);
+
+        // make a redirect
+        this.context.router.replace('/login');
     })
     .catch(function (error) {
       console.log(error);

@@ -5204,17 +5204,11 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _Auth = __webpack_require__(320);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function loggedIn() {
-  return false;
-}
-
-function requireAuth(nextState, replace) {
-  if (!loggedIn()) {
-    console.log('dffffff');
-  }
-}
 
 var Base = function Base() {
   return _react2.default.createElement(
@@ -5232,7 +5226,15 @@ var Base = function Base() {
           'React App'
         )
       ),
-      _react2.default.createElement(
+      _Auth2.default.isUserAuthenticated() ? _react2.default.createElement(
+        'div',
+        { className: 'top-bar-right' },
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/logout' },
+          'Log out'
+        )
+      ) : _react2.default.createElement(
         'div',
         { className: 'top-bar-right' },
         _react2.default.createElement(
@@ -5242,7 +5244,7 @@ var Base = function Base() {
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
-          { to: '/signup', onClick: requireAuth },
+          { to: '/signup' },
           'Sign up'
         )
       )
@@ -6271,6 +6273,10 @@ var _axios = __webpack_require__(301);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Auth = __webpack_require__(320);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6323,6 +6329,10 @@ var LoginPage = function (_React$Component) {
         password: this.state.user.password
       }).then(function (response) {
         console.log(response);
+        _Auth2.default.authenticateUser(response.data.data);
+
+        // change the current URL to /
+        this.context.router.replace('/');
       }).catch(function (error) {
         console.log(error);
       });
@@ -6433,6 +6443,10 @@ var _axios = __webpack_require__(301);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Auth = __webpack_require__(320);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6511,6 +6525,10 @@ var SignUpPage = function (_React$Component) {
         password_confirmation: this.state.user.password_confirmation
       }).then(function (response) {
         console.log(response);
+        localStorage.setItem('successMessage', response.data.data);
+
+        // make a redirect
+        this.context.router.replace('/login');
       }).catch(function (error) {
         console.log(error);
       });
@@ -6586,15 +6604,17 @@ var _SignUpPage = __webpack_require__(129);
 
 var _SignUpPage2 = _interopRequireDefault(_SignUpPage);
 
+var _DashboardPage = __webpack_require__(321);
+
+var _DashboardPage2 = _interopRequireDefault(_DashboardPage);
+
+var _Auth = __webpack_require__(320);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import DashboardPage from './containers/DashboardPage.jsx';
-
-// import Auth from './modules/Auth';
-
 // remove tap delay, essential for MaterialUI to work properly
-
-// import { browserHistory, Router } from 'react-router';
 (0, _reactTapEventPlugin2.default)();
 
 function loggedIn() {
@@ -6602,6 +6622,7 @@ function loggedIn() {
 }
 
 function requireAuth(nextState, replace) {
+  console.log('ffffffffffff');
   if (!loggedIn()) {
     replace({
       pathname: '/login'
@@ -6614,7 +6635,7 @@ _reactDom2.default.render(_react2.default.createElement(
   { muiTheme: (0, _getMuiTheme2.default)() },
   _react2.default.createElement(
     _reactRouterDom.BrowserRouter,
-    null,
+    { history: _reactRouterDom.browserHistory },
     _react2.default.createElement(
       'div',
       null,
@@ -40740,6 +40761,87 @@ module.exports = function spread(callback) {
     return callback.apply(null, arr);
   };
 };
+
+
+/***/ }),
+/* 320 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Auth = function () {
+  function Auth() {
+    _classCallCheck(this, Auth);
+  }
+
+  _createClass(Auth, null, [{
+    key: 'authenticateUser',
+
+
+    /**
+     * Authenticate a user. Save a token string in Local Storage
+     *
+     * @param {string} token
+     */
+    value: function authenticateUser(token) {
+      localStorage.setItem('token', token);
+    }
+
+    /**
+     * Check if a user is authenticated - check if a token is saved in Local Storage
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isUserAuthenticated',
+    value: function isUserAuthenticated() {
+      return localStorage.getItem('token') !== null;
+    }
+
+    /**
+     * Deauthenticate a user. Remove a token from Local Storage.
+     *
+     */
+
+  }, {
+    key: 'deauthenticateUser',
+    value: function deauthenticateUser() {
+      localStorage.removeItem('token');
+    }
+
+    /**
+     * Get a token value.
+     *
+     * @returns {string}
+     */
+
+  }, {
+    key: 'getToken',
+    value: function getToken() {
+      return localStorage.getItem('token');
+    }
+  }]);
+
+  return Auth;
+}();
+
+exports.default = Auth;
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 /***/ })
