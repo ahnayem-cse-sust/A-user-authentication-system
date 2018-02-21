@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import LoginForm from '../components/LoginForm.jsx';
+import axios from 'axios';
 
 
 class LoginPage extends React.Component {
@@ -32,8 +33,18 @@ class LoginPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    console.log('email:', this.state.user.email);
-    console.log('password:', this.state.user.password);
+    // Axios request
+    axios.post('http://invoice-api.cse.party/api/v1/login', {
+      email: this.state.user.email,
+      password: this.state.user.password
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   /**

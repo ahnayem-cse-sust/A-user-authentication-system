@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
+import axios from 'axios';
 
 
 class SignUpPage extends React.Component {
@@ -15,8 +16,8 @@ class SignUpPage extends React.Component {
       errors: {},
       user: {
         email: '',
-        name: '',
-        password: ''
+        password: '',
+        password_confirmation: ''
       }
     };
 
@@ -48,9 +49,25 @@ class SignUpPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    console.log('name:', this.state.user.name);
-    console.log('email:', this.state.user.email);
-    console.log('password:', this.state.user.password);
+    // create a string for an HTTP body message
+    // const name = encodeURIComponent(this.state.user.name);
+    // const email = encodeURIComponent(this.state.user.email);
+    // const password = encodeURIComponent(this.state.user.password);
+    // const formData = `name=${name}&email=${email}&password=${password}`;
+
+    // create an Axios request
+    axios.post('http://invoice-api.cse.party/api/v1/register', {
+      email: this.state.user.email,
+      password: this.state.user.password,
+      password_confirmation: this.state.user.password_confirmation
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
   }
 
   /**

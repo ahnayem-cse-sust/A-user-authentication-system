@@ -20,16 +20,6 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
-          onChange={onChange}
-          value={user.name}
-        />
-      </div>
-
-      <div className="field-line">
-        <TextField
           floatingLabelText="Email"
           name="email"
           errorText={errors.email}
@@ -43,9 +33,20 @@ const SignUpForm = ({
           floatingLabelText="Password"
           type="password"
           name="password"
-          onChange={onChange}
           errorText={errors.password}
+          onChange={onChange}
           value={user.password}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Password Confirm"
+          type="password"
+          name="password_confirmation"
+          onChange={onChange}
+          errorText={errors.password_confirmation}
+          value={user.password_confirmation}
         />
       </div>
 

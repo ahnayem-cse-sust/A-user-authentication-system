@@ -11,30 +11,33 @@ import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
+// import DashboardPage from './containers/DashboardPage.jsx';
+
+// import Auth from './modules/Auth';
 
 // remove tap delay, essential for MaterialUI to work properly
 injectTapEventPlugin();
 
+function loggedIn() {
+  return false;
+}
+
+function requireAuth(nextState, replace) {
+  if (!loggedIn()) {
+    replace({
+      pathname: '/login'
+    })
+  }
+}
+
 ReactDom.render((
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    {/* <Router history={browserHistory} routes={routes} /> */}
-    
-      {/* <Base path="/" component={Base}>
-        <Route path="homepage" component={ HomePage }/>
-        <Route path="login" component={ LoginPage }/>
-        <Route path="signup" component={ SignUpPage }/>
-      </Route> */}
       <Router>
           <div>
             <Route exact path="/" component={Base} />
             <Route exact path="/" component={HomePage} />
             <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={SignUpPage} />
+            <Route path="/signup" component={SignUpPage} onEnter={requireAuth} />
           </div>
       </Router>
-    {/* <HashRouter>
-    <Base>
-        
-    </Base>
-  </HashRouter> */}
   </MuiThemeProvider>), document.getElementById('react-app'));
