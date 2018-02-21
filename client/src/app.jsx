@@ -49,9 +49,9 @@ ReactDom.render((
             <Route path="/logout" 
             render={() => (
               Auth.deauthenticateUser() ? (
-                <Redirect to="/"/>
+                <Redirect to="/login"/>
               ) : (
-                <Redirect to="/"/>
+                <Redirect to="/login"/>
               )
             )}
             />

@@ -49,7 +49,13 @@ class LoginPage extends React.Component {
       
     })
     .catch(function (error) {
-      console.log(error);
+      const errors = {
+        email: 'Credantials are not correct.',
+        password: 'Credantials are not correct.'
+      }
+      that.setState({
+        errors
+      });
     });
 
   }
