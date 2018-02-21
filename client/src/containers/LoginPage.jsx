@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import LoginForm from '../components/LoginForm.jsx';
 import axios from 'axios';
 import Auth from '../modules/Auth';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import Base from '../components/Base.jsx';
 
 
 class LoginPage extends React.Component {
@@ -34,6 +36,8 @@ class LoginPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
+    var that = this;
+
     // Axios request
     axios.post('http://invoice-api.cse.party/api/v1/login', {
       email: this.state.user.email,
@@ -41,16 +45,17 @@ class LoginPage extends React.Component {
     })
     .then(function (response) {
       console.log(response);
-      Auth.authenticateUser(response.data.data);
-
-
-        // change the current URL to /
-        this.context.router.replace('/');
+      Auth.authenticateUser(response.data.data, that.tokenExecuted(Event));
+      
     })
     .catch(function (error) {
       console.log(error);
     });
 
+  }
+
+  tokenExecuted(){
+      this.props.history.push('/dashboard');    
   }
 
   /**

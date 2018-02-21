@@ -65,3 +65,6 @@ body {
     padding: 0 16px;
     color: green;
   }
+  .logout-button{
+    margin: 20px;
+  }

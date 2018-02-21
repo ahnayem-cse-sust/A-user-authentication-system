@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
 import axios from 'axios';
 import Auth from '../modules/Auth';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 
 class SignUpPage extends React.Component {
@@ -50,6 +51,7 @@ class SignUpPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
+    var that = this;
     // create a string for an HTTP body message
     // const name = encodeURIComponent(this.state.user.name);
     // const email = encodeURIComponent(this.state.user.email);
@@ -67,7 +69,7 @@ class SignUpPage extends React.Component {
       localStorage.setItem('successMessage', response.data.data);
 
         // make a redirect
-        this.context.router.replace('/login');
+        that.props.history.push('/dashboard');
     })
     .catch(function (error) {
       console.log(error);
