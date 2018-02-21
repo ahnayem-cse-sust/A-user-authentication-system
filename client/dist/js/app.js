@@ -40878,6 +40878,10 @@ var _DashboardPage = __webpack_require__(321);
 
 var _DashboardPage2 = _interopRequireDefault(_DashboardPage);
 
+var _axios = __webpack_require__(125);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -40910,22 +40914,38 @@ var DashboardPage = function (_React$Component) {
 
   _createClass(DashboardPage, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {}
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('get', '/api/dashboard');
-    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    // // set the authorization HTTP header
-    // xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-    // xhr.responseType = 'json';
-    // xhr.addEventListener('load', () => {
-    //   if (xhr.status === 200) {
-    //     this.setState({
-    //       secretData: xhr.response.message
-    //     });
-    //   }
-    // });
-    // xhr.send();
+    value: function componentDidMount() {
+      var _this2 = this;
 
+      var xhr = new XMLHttpRequest();
+      xhr.open('get', 'http://invoice-api.cse.party/api/v1/user/profile');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      // set the authorization HTTP header
+      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', function () {
+        if (xhr.status === 200) {
+          _this2.setState({
+            secretData: xhr.response.message
+          });
+        }
+      });
+      xhr.send();
+
+      // Axios request
+      //   axios.get('http://invoice-api.cse.party/api/v1/user/profile', {
+      //     headers: { 
+      //       Authorization: 'Bearer ' + Auth.getToken()
+      //     }
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+    }
 
     /**
      * Render the component.
