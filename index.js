@@ -12,6 +12,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const authRoutes = require('./server/routes/auth');
 app.use('/auth', authRoutes);
 
+app.get('/*', (req, res) => {
+    return res.redirect('/');
+});
+
 // start the server
 app.listen(8000, () => {
   console.log('Server is running on http://localhost:8000 or http://127.0.0.1:8000');
