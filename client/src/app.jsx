@@ -30,10 +30,10 @@ ReactDom.render((
             <Route path="/signup" component={SignUpPage} />
             <Route path="/dashboard" 
             render={() => (
-              Auth.deauthenticateUser() ? (
-                <Redirect to="/login"/>
-              ) : (
+              Auth.isUserAuthenticated() ? (
                 <Dashboard />
+              ) : (
+                <Redirect to="/login"/>
               )
             )}
             />
