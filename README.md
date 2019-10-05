@@ -1,7 +1,9 @@
 # A-user-authentication-system
-Frontend : ReactJs.
-Backend : ExpressJs.
-Authorization : oauth.
+Frontend : ReactJs
+
+Backend : ExpressJs
+
+Authorization : oauth
 
 
 
